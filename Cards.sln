@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cards", "Cards\Cards.csproj", "{071C2E4C-2252-4322-92C0-8A389B9CB2DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingCards", "UsingCards\UsingCards.csproj", "{DEF4BE25-B410-4F3A-BA02-4D18F8F14517}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{071C2E4C-2252-4322-92C0-8A389B9CB2DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{071C2E4C-2252-4322-92C0-8A389B9CB2DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{071C2E4C-2252-4322-92C0-8A389B9CB2DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{071C2E4C-2252-4322-92C0-8A389B9CB2DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEF4BE25-B410-4F3A-BA02-4D18F8F14517}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEF4BE25-B410-4F3A-BA02-4D18F8F14517}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEF4BE25-B410-4F3A-BA02-4D18F8F14517}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEF4BE25-B410-4F3A-BA02-4D18F8F14517}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {151B9256-208F-46C6-B4DE-A4E42ED2AC73}
+	EndGlobalSection
+EndGlobal
