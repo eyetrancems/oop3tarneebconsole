@@ -11,7 +11,10 @@ namespace UsingCards
         public static List<String> tarneebSuit = new List<String>() { };
         // Play Tarneeb is played is a global variable
         public static bool tarneebPlayed = false;
-        
+
+        public static Teams FirstTeam = new Teams();
+        public static Teams SecondTeam = new Teams();
+
         // Main
         static void Main(string[] args)
         {
@@ -24,7 +27,7 @@ namespace UsingCards
             Console.Title = "Tarneeb - Console Version";
 
             // List of String tarneeb settings (betting, selection, and player) called with RoundBet function
-            tarneebSuit = RoundBet();
+            tarneebSuit = RoundBetRandom();
 
             // Change console color to white
             Console.BackgroundColor = ConsoleColor.White;
@@ -59,6 +62,10 @@ namespace UsingCards
             Player player4 = new Player("Some Doe", pass4);
             //player4.playersCards.ForEach(Console.WriteLine);
 
+            //Assign Players to Teams
+            FirstTeam = new Teams(player1, player2);
+            SecondTeam = new Teams(player3, player4);
+
             // Create a List of Players
             List<Player> playerList = new List<Player> { player1, player2, player3, player4 };
 
@@ -80,7 +87,7 @@ namespace UsingCards
             int roundWinner = Convert.ToInt32(tarneebSuit[2]);
 
             // Stop game when no cards left (might have to change to when quit bool variable instead of all cards gone)
-            while (player4.playersCards.Count != 0)
+            while (FirstTeam.score != 41 || SecondTeam.score != 41)
             {
                 // The drawn cards are emptied before each round
                 drawnCardList = new List<Card>() { };
@@ -183,7 +190,7 @@ namespace UsingCards
                 // Evaluate
 
                 int xcoor = 0;
-                int ycoor = 46;
+                int ycoor = 47;
                 Console.SetCursorPosition(xcoor, ycoor);
                 
                 // If tarneeb played the methods are different from just normal game
@@ -208,19 +215,40 @@ namespace UsingCards
 
                         // Write to console which player won with what card
                         if (whichPlayer == 0)
+                        {
                             Console.WriteLine(playerList[roundWinner].name + " has highest card! " + drawnCardList[0].ToString());
+                            //FirstTeam.score += 1;
+                        }
                         else if (whichPlayer == 1)
+                        {
                             Console.WriteLine(playerList[roundWinner].name + " has highest card! " + drawnCardList[1].ToString());
+                            //FirstTeam.score += 1;
+                        }
                         else if (whichPlayer == 2)
+                        {
                             Console.WriteLine(playerList[roundWinner].name + " has highest card! " + drawnCardList[2].ToString());
+                            //SecondTeam.score += 1;
+                        }
                         else if (whichPlayer == 3)
+                        {
                             Console.WriteLine(playerList[roundWinner].name + " has highest card! " + drawnCardList[3].ToString());
+                            //SecondTeam.score += 1;
+                        }
 
                         // remove the played cards from players
                         player1.playersCards.Remove(playerCardChoose);
                         player2.playersCards.Remove(computerCard1Choose);
                         player3.playersCards.Remove(computerCard2Choose);
                         player4.playersCards.Remove(computerCard3Choose);
+
+                        if (roundWinner == 0 || roundWinner == 1)
+                        {
+                            FirstTeam.score += 1;
+                        }
+                        else
+                        {
+                            SecondTeam.score += 1;
+                        }
                     }
 
                     // Pause
@@ -248,21 +276,42 @@ namespace UsingCards
                             roundWinner = roundWinner - 4;
                         }
 
-                        // Console write to screen which player won
+                        // Write to console which player won with what card
                         if (whichPlayer == 0)
+                        {
                             Console.WriteLine(playerList[roundWinner].name + " has highest card! " + drawnCardList[0].ToString());
+                            //FirstTeam.score += 1;
+                        }
                         else if (whichPlayer == 1)
+                        {
                             Console.WriteLine(playerList[roundWinner].name + " has highest card! " + drawnCardList[1].ToString());
+                            //FirstTeam.score += 1;
+                        }
                         else if (whichPlayer == 2)
+                        {
                             Console.WriteLine(playerList[roundWinner].name + " has highest card! " + drawnCardList[2].ToString());
+                            //SecondTeam.score += 1;
+                        }
                         else if (whichPlayer == 3)
+                        {
                             Console.WriteLine(playerList[roundWinner].name + " has highest card! " + drawnCardList[3].ToString());
+                            //SecondTeam.score += 1;
+                        }
 
                         // Remove played cards
                         player1.playersCards.Remove(playerCardChoose);
                         player2.playersCards.Remove(computerCard1Choose);
                         player3.playersCards.Remove(computerCard2Choose);
                         player4.playersCards.Remove(computerCard3Choose);
+
+                        if (roundWinner == 0 || roundWinner == 1)
+                        {
+                            FirstTeam.score += 1;
+                        }
+                        else
+                        {
+                            SecondTeam.score += 1;
+                        }
                     }
 
                     // Pause
@@ -361,6 +410,8 @@ namespace UsingCards
                 int ycoor = 34;
                 Console.SetCursorPosition(xcoor, ycoor);
 
+                // Display Scores
+                Console.WriteLine("Team 1: " + FirstTeam.score.ToString() + ", Team 2: " + SecondTeam.score.ToString());
                 // Display tarneeb selection
                 Console.WriteLine("The Tarneeb is: " + tarneebSuit[0] + ". Bet is: " + tarneebSuit[1] + " at Player " + tarneebSuit[2]);
                 // Ask user for suit selection
@@ -831,17 +882,124 @@ namespace UsingCards
         {
 
             int xcoor = 0;
-            int ycoor = 40;
+            int ycoor = 41;
 
             foreach (Card c in listOfCards)
             {
                 DrawCards.DrawCardOutline(xcoor, ycoor);
                 DrawCards.DrawCardSuitValue(c, xcoor, ycoor);
                 xcoor += 1;
-                ycoor = 40;
+                ycoor = 41;
             }
 
         }
+
+        // Round Bet (highest, suit and player)
+        public static List<String> RoundBetRandom()
+        {
+
+            var rand = new Random();
+            int playerNumberRandom = rand.Next(3);
+
+
+            //int numberSelected = 7;
+
+            int playerNumberSelected = 0;
+            List<int> playerNumberSelections = new List<int>();
+
+            char suitSelection = 'A';
+            String suitSelectionToFullname = "";
+            bool firstNumberOK = false;
+
+
+            Console.WriteLine("Player " + playerNumberRandom.ToString() +  " select number from 7 to 13: ");
+            playerNumberSelected = Convert.ToInt32(Console.ReadLine());
+
+
+            if (playerNumberSelected > 6 && playerNumberSelected < 14)
+            {
+                playerNumberSelections.Add(playerNumberSelected);
+            }
+            else
+            {
+                while (!firstNumberOK)
+                {
+                    Console.WriteLine("Player " + playerNumberRandom.ToString() + " select number from 7 to 13: ");
+                    playerNumberSelected = Convert.ToInt32(Console.ReadLine());
+                    if (playerNumberSelected > 6 && playerNumberSelected < 14)
+                    {
+                        playerNumberSelections.Add(playerNumberSelected);
+                        firstNumberOK = true;
+                    }
+                }
+            }
+
+
+            String result = string.Join(",", playerNumberSelections);
+            for (int i = 1; i < 4; i++)
+            {
+                bool afterNumberOK = false;
+                //Console.WriteLine(playerNumberSelections.ToString());
+
+                result = string.Join(",", playerNumberSelections);
+                Console.WriteLine("Current number list: " + result);
+
+                int pc = playerNumberRandom + i;
+                if (pc > 3)
+                {
+                    pc -= 4;
+                }
+                Console.WriteLine("Player " + (pc).ToString() + " select number from 7 to 13: ");
+                playerNumberSelected = Convert.ToInt32(Console.ReadLine());
+
+                while (!afterNumberOK)
+                {
+                    if (playerNumberSelected > 6 && playerNumberSelected < 14 && playerNumberSelections.IndexOf(playerNumberSelected) == -1)
+                    {
+                        playerNumberSelections.Add(playerNumberSelected);
+                        afterNumberOK = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Number already in list or not in range.");
+                        Console.WriteLine("Player " + pc.ToString() + " select number from 7 to 13: ");
+                        playerNumberSelected = Convert.ToInt32(Console.ReadLine());
+                    }
+                }
+
+            }
+
+            result = string.Join(",", playerNumberSelections);
+            Console.WriteLine("Current number list: " + result);
+            int maxIndex = playerNumberSelections.IndexOf(playerNumberSelections.Max());
+            if (maxIndex > 3)
+            {
+                maxIndex = maxIndex - 4;
+            }
+            Console.WriteLine("The max index is: " + playerNumberSelections.Max() + " at Player " + maxIndex.ToString());
+
+            Console.WriteLine("Player " + maxIndex.ToString() + ", Select card SUIT: H = Hearts, S = Spades, D = Diamonds, C = Clubs");
+            suitSelection = Convert.ToChar(Console.ReadLine().ToUpper());
+
+            switch (suitSelection)
+            {
+                case 'H':
+                    suitSelectionToFullname = "HEART";
+                    break;
+                case 'S':
+                    suitSelectionToFullname = "SPADE";
+                    break;
+                case 'D':
+                    suitSelectionToFullname = "DIAMOND";
+                    break;
+                case 'C':
+                    suitSelectionToFullname = "CLUB";
+                    break;
+            }
+
+            return new List<string> { suitSelectionToFullname, playerNumberSelections.Max().ToString(), maxIndex.ToString() };
+        }
+
 
         // Round Bet (highest, suit and player)
         public static List<String> RoundBet()
