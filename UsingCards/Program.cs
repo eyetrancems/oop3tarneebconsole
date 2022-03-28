@@ -9,6 +9,8 @@ namespace UsingCards
     {
         // List of String that holds Tarneeb suit betting (1. Tarneeb Suit, 2. Bet number, 3. Player who betted the most) global variable
         public static List<String> tarneebSuit = new List<String>() { };
+
+        public static string difficulty = "easy";
         // Play Tarneeb is played is a global variable
         public static bool tarneebPlayed = false;
 
@@ -107,17 +109,17 @@ namespace UsingCards
                     drawnCardList.Add(playerCardChoose);
 
                     // Computer 1  choose card
-                    computerCard1Choose = ChooseCard(player2, player1, player2, player3, player4, drawnCardList);
+                    computerCard1Choose = ChooseCardComputer(player2, player1, player2, player3, player4, drawnCardList);
                     // Add card to list drawn
                     drawnCardList.Add(computerCard1Choose);
 
                     // Computer 2 choose card
-                    computerCard2Choose = ChooseCard(player3, player1, player2, player3, player4, drawnCardList);                  
+                    computerCard2Choose = ChooseCardComputer(player3, player1, player2, player3, player4, drawnCardList);                  
                     // Add card to list drawn
                     drawnCardList.Add(computerCard2Choose);
 
                     // Computer 3 choose card
-                    computerCard3Choose = ChooseCard(player4, player1, player2, player3, player4, drawnCardList);
+                    computerCard3Choose = ChooseCardComputer(player4, player1, player2, player3, player4, drawnCardList);
                     // Add card to list drawn
                     drawnCardList.Add(computerCard3Choose);
                 }
@@ -125,15 +127,15 @@ namespace UsingCards
                 else if (roundWinner == 1)
                 {
                     // Computer 1
-                    computerCard1Choose = ChooseCard(player2, player1, player2, player3, player4, drawnCardList);
+                    computerCard1Choose = ChooseCardComputer(player2, player1, player2, player3, player4, drawnCardList);
                     drawnCardList.Add(computerCard1Choose);
 
                     // Computer 2
-                    computerCard2Choose = ChooseCard(player3, player1, player2, player3, player4, drawnCardList);
+                    computerCard2Choose = ChooseCardComputer(player3, player1, player2, player3, player4, drawnCardList);
                     drawnCardList.Add(computerCard2Choose);
 
                     // Computer 3
-                    computerCard3Choose = ChooseCard(player4, player1, player2, player3, player4, drawnCardList);
+                    computerCard3Choose = ChooseCardComputer(player4, player1, player2, player3, player4, drawnCardList);
                     drawnCardList.Add(computerCard3Choose);
 
                     // Player 
@@ -144,11 +146,11 @@ namespace UsingCards
                 else if (roundWinner == 2)
                 {
                     // Computer 2
-                    computerCard2Choose = ChooseCard(player3, player1, player2, player3, player4, drawnCardList);
+                    computerCard2Choose = ChooseCardComputer(player3, player1, player2, player3, player4, drawnCardList);
                     drawnCardList.Add(computerCard2Choose);
 
                     // Computer 3
-                    computerCard3Choose = ChooseCard(player4, player1, player2, player3, player4, drawnCardList);
+                    computerCard3Choose = ChooseCardComputer(player4, player1, player2, player3, player4, drawnCardList);
                     drawnCardList.Add(computerCard3Choose);
 
                     // Player 
@@ -156,14 +158,14 @@ namespace UsingCards
                     drawnCardList.Add(playerCardChoose);
 
                     // Computer 1
-                    computerCard1Choose = ChooseCard(player2, player1, player2, player3, player4, drawnCardList);
+                    computerCard1Choose = ChooseCardComputer(player2, player1, player2, player3, player4, drawnCardList);
                     drawnCardList.Add(computerCard1Choose);
                 }
                 // Player 3 won
                 else if (roundWinner == 3)
                 {
                     // Computer 3
-                    computerCard3Choose = ChooseCard(player4, player1, player2, player3, player4, drawnCardList);
+                    computerCard3Choose = ChooseCardComputer(player4, player1, player2, player3, player4, drawnCardList);
                     drawnCardList.Add(computerCard3Choose);
 
                     // Player 
@@ -171,11 +173,11 @@ namespace UsingCards
                     drawnCardList.Add(playerCardChoose);
 
                     // Computer 1
-                    computerCard1Choose = ChooseCard(player2, player1, player2, player3, player4, drawnCardList);
+                    computerCard1Choose = ChooseCardComputer(player2, player1, player2, player3, player4, drawnCardList);
                     drawnCardList.Add(computerCard1Choose);
 
                     // Computer 2
-                    computerCard2Choose = ChooseCard(player3, player1, player2, player3, player4, drawnCardList);
+                    computerCard2Choose = ChooseCardComputer(player3, player1, player2, player3, player4, drawnCardList);
                     drawnCardList.Add(computerCard2Choose);
                 }
 
@@ -519,7 +521,184 @@ namespace UsingCards
 
             // return card
             return CardChoose;
-        }        
+        }
+
+        // Choose Card method
+        public static Card ChooseCardComputer(Player playerSelection, Player player1, Player player2, Player player3, Player player4, List<Card> listOfCards)
+        {
+            List<Card> selectedPlayersCards = new List<Card>();
+            //String selectedPlayer = "";
+
+            Card selectedCardSuit = new Card();
+            String selectedCardSuitString = "";
+
+            // Card index
+            int i = 0;
+
+            // Select first card as selection suit for remaining players.
+            if (listOfCards.Count > 0)
+            {
+                // Select first card for suit seletion for remaining plays
+                if (listOfCards[0].Suit.ToString() != "0")
+                {
+                    selectedCardSuit = listOfCards[0];
+                    selectedCardSuitString = selectedCardSuit.Suit.ToString();
+                }
+            }
+
+            // Determine who is playing to select their cards
+            if (playerSelection.name == "John Doe") // Computer 1
+            {
+                selectedPlayersCards = playerSelection.playersCards;
+                //selectedPlayer = "COMP1";
+            }
+            else if (playerSelection.name == "Jane Doe") // Computer 2
+            {
+                selectedPlayersCards = playerSelection.playersCards;
+                //selectedPlayer = "COMP2";
+            }
+            else if (playerSelection.name == "Some Doe") // Computer 3
+            {
+                selectedPlayersCards = playerSelection.playersCards;
+                //selectedPlayer = "COMP3";
+            }
+            else
+            {
+                selectedPlayersCards = playerSelection.playersCards;
+                //selectedPlayer = "Player";
+            }
+
+            // Suit selection
+            char suitSelection = ' ';
+            String suitSelectionToFullname = "";
+
+           
+            //bool cardSameSuit = false;
+
+            // Card choosen 
+            Card CardChoose = new Card();
+
+
+            // Display player cards
+            displayCards(player1, player2, player3, player4);
+
+            // Display cards drawn
+            DrawDrawnCards(listOfCards);
+
+
+
+            // Set cursor under display player cards
+            int xcoor = 0;
+            int ycoor = 34;
+            Console.SetCursorPosition(xcoor, ycoor);
+
+            // Display Scores
+            Console.WriteLine("Team 1: " + FirstTeam.score.ToString() + ", Team 2: " + SecondTeam.score.ToString());
+            // Display tarneeb selection
+            Console.WriteLine("The Tarneeb is: " + tarneebSuit[0] + ". Bet is: " + tarneebSuit[1] + " at Player " + tarneebSuit[2]);
+
+
+            if (difficulty == "easy")
+            {
+                // Select Trump card anywhere
+                int weakCardOfTarneebSuit = selectedPlayersCards.FindLastIndex(c => c.Suit.ToString() == tarneebSuit[0]);
+
+                if (weakCardOfTarneebSuit == -1)
+                {
+                    // No cards drawn yet
+                    if (listOfCards.Count == 0)
+                    {
+                        var rand = new Random();
+                        int randomCard = rand.Next(selectedPlayersCards.Count);
+                        // Return something random
+                        return selectedPlayersCards[randomCard];
+                    }
+
+                    if (selectedCardSuitString != "")
+                    { 
+                        // Check if cards of same suit left
+                        int numberOfCardsInSameSuit = 0;
+                        foreach (Card cSearch in selectedPlayersCards)
+                        {
+                            if (cSearch.Suit.ToString() == selectedCardSuit.Suit.ToString())
+                            {
+                                numberOfCardsInSameSuit++;
+                            }
+                        }
+                        if (numberOfCardsInSameSuit != 0)
+                        {
+                            int weakCardOfSelectedCardSuit = selectedPlayersCards.FindLastIndex(c => c.Suit.ToString() == selectedCardSuit.Suit.ToString());
+                            return selectedPlayersCards[weakCardOfSelectedCardSuit];
+                        }
+                        else
+                        {
+                            var rand = new Random();
+                            int randomCard = rand.Next(selectedPlayersCards.Count);
+                            // Return something random
+                            return selectedPlayersCards[randomCard];
+                        }
+
+                    }
+                    
+                }
+                i = weakCardOfTarneebSuit;
+                return selectedPlayersCards[weakCardOfTarneebSuit];
+            }
+
+            else if (difficulty == "hard")
+            {
+                // Select Trump card anywhere
+                int strongCardOfTarneebSuit = selectedPlayersCards.FindIndex(c => c.Suit.ToString() == tarneebSuit[0]);
+
+                if (strongCardOfTarneebSuit == -1)
+                {
+                    // No cards drawn yet
+                    if (listOfCards.Count == 0)
+                    {
+                        var rand = new Random();
+                        int randomCard = rand.Next(selectedPlayersCards.Count);
+                        // Return something random
+                        return selectedPlayersCards[randomCard];
+                    }
+
+
+                    if (selectedCardSuitString != "")
+                    {
+                        // Check if cards of same suit left
+                        int numberOfCardsInSameSuit = 0;
+                        foreach (Card cSearch in selectedPlayersCards)
+                        {
+                            if (cSearch.Suit.ToString() == selectedCardSuit.Suit.ToString())
+                            {
+                                numberOfCardsInSameSuit++;
+                            }
+                        }
+                        if (numberOfCardsInSameSuit != 0)
+                        {
+                            int strongCardOfSelectedCardSuit = selectedPlayersCards.FindIndex(c => c.Suit.ToString() == selectedCardSuit.Suit.ToString());
+                            return selectedPlayersCards[strongCardOfSelectedCardSuit];
+                        }
+                        else
+                        {
+                            var rand = new Random();
+                            int randomCard = rand.Next(selectedPlayersCards.Count);
+                            // Return something random
+                            return selectedPlayersCards[randomCard];
+                        }
+
+                    }
+                    
+
+                }
+
+                i = strongCardOfTarneebSuit;
+
+                return selectedPlayersCards[strongCardOfTarneebSuit];
+            }
+
+            
+            return selectedPlayersCards[i];
+        }
 
         // Find all the Tarneeb cards and return 4 digit code
         static int FindTarneebsInList(List<Card> cards)
