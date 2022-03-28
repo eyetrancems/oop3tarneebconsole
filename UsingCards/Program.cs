@@ -24,16 +24,16 @@ namespace UsingCards
             Console.BufferWidth = 120;
             Console.BufferHeight = 50;
             Console.SetWindowSize(120, 50);
-            
+
             // Title for console window
             Console.Title = "Tarneeb - Console Version";
 
             // List of String tarneeb settings (betting, selection, and player) called with RoundBet function
-            tarneebSuit = RoundBetRandom();
+            //tarneebSuit = RoundBetRandom();
 
             // Change console color to white
             Console.BackgroundColor = ConsoleColor.White;
-                  
+
 
             // Create a deck
             var deck = new Deck();
@@ -49,17 +49,17 @@ namespace UsingCards
             Player player1 = new Player("Alaadin Addas", pass1);
             //player1.playersCards.ForEach(Console.WriteLine);
             //Console.WriteLine("_____________________________________");
-            
+
             // Create Player2 with cards
             Player player2 = new Player("John Doe", pass2);
             //player2.playersCards.ForEach(Console.WriteLine);
             //Console.WriteLine("_____________________________________");
-            
+
             // Create Player3 with cards
             Player player3 = new Player("Jane Doe", pass3);
             //player3.playersCards.ForEach(Console.WriteLine);
             //Console.WriteLine("_____________________________________");
-            
+
             // Create Player4 with cards
             Player player4 = new Player("Some Doe", pass4);
             //player4.playersCards.ForEach(Console.WriteLine);
@@ -74,6 +74,13 @@ namespace UsingCards
             // Display all Players with cards cards
             displayCards(player1, player2, player3, player4);
 
+            // List of String tarneeb settings (betting, selection, and player) called with RoundBet function
+            //tarneebSuit = RoundBetRandom();
+
+            tarneebSuit = RoundBetComputer(player1, player2, player3, player4);
+
+
+            displayCards(player1, player2, player3, player4);
             //bool quit = false;
 
             // Create empty card for each player
@@ -88,9 +95,37 @@ namespace UsingCards
             // Highest bidder player to start round
             int roundWinner = Convert.ToInt32(tarneebSuit[2]);
 
+            // Which team bid highest reaches end game
+            //bool endgame = false;
+            //int team = 0;
+            //if (tarneebSuit[3] == "1")
+            //{
+            //    team = 1;
+            //}
+            //else
+            //{
+            //    team = 2;
+            //}
+
             // Stop game when no cards left (might have to change to when quit bool variable instead of all cards gone)
-            while (FirstTeam.score != 41 || SecondTeam.score != 41)
+            while (FirstTeam.score != 41 || SecondTeam.score != 41 || player4.playersCards.Count == 0)// || endgame == false )
             {
+                //if (team == 1)
+                //{
+                //    if (FirstTeam.score == Int32.Parse(tarneebSuit[1]))
+                //    {
+                //        endgame = true;
+                //    }
+                //}
+                //else if (team == 2)
+                //{
+                //    if (SecondTeam.score != Int32.Parse(tarneebSuit[1]))
+                //    {
+                //        endgame = true;
+                //    }
+                //}
+
+                
                 // The drawn cards are emptied before each round
                 drawnCardList = new List<Card>() { };
                 
@@ -409,7 +444,7 @@ namespace UsingCards
 
                 // Set cursor under display player cards
                 int xcoor = 0;
-                int ycoor = 34;
+                int ycoor = 31;
                 Console.SetCursorPosition(xcoor, ycoor);
 
                 // Display Scores
@@ -589,7 +624,7 @@ namespace UsingCards
 
             // Set cursor under display player cards
             int xcoor = 0;
-            int ycoor = 34;
+            int ycoor = 31;
             Console.SetCursorPosition(xcoor, ycoor);
 
             // Display Scores
@@ -641,7 +676,12 @@ namespace UsingCards
                     }
                     
                 }
+                else
+                {
+                    tarneebPlayed = true;
+                }
                 i = weakCardOfTarneebSuit;
+
                 return selectedPlayersCards[weakCardOfTarneebSuit];
             }
 
@@ -690,6 +730,10 @@ namespace UsingCards
                     }
                     
 
+                }
+                else
+                {
+                    tarneebPlayed = true;
                 }
 
                 i = strongCardOfTarneebSuit;
@@ -1075,8 +1119,167 @@ namespace UsingCards
         }
 
         // Round Bet (highest, suit and player)
+        public static List<String> RoundBetRandomComputer(Player player1, Player player2, Player player3, Player player4)
+        {
+
+            int xcoor = 0;
+            int ycoor = 31;
+            Console.SetCursorPosition(xcoor, ycoor);
+
+            var rand = new Random();
+            int playerNumberRandom = rand.Next(3);
+
+
+            //int numberSelected = 7;
+
+            int playerNumberSelected = 0;
+            List<int> playerNumberSelections = new List<int>();
+
+            char suitSelection = 'A';
+            String suitSelectionToFullname = "";
+            bool firstNumberOK = false;
+
+
+            Console.WriteLine("Player " + playerNumberRandom.ToString() + " select number from 7 to 13: ");
+            playerNumberSelected = Convert.ToInt32(Console.ReadLine());
+
+
+            if (playerNumberSelected > 6 && playerNumberSelected < 14)
+            {
+                playerNumberSelections.Add(playerNumberSelected);
+            }
+            else
+            {
+                while (!firstNumberOK)
+                {
+                    Console.WriteLine("Player " + playerNumberRandom.ToString() + " select number from 7 to 13: ");
+                    playerNumberSelected = Convert.ToInt32(Console.ReadLine());
+                    if (playerNumberSelected > 6 && playerNumberSelected < 14)
+                    {
+                        playerNumberSelections.Add(playerNumberSelected);
+                        firstNumberOK = true;
+                    }
+                }
+            }
+
+         
+
+            String result = string.Join(",", playerNumberSelections);
+            for (int i = 1; i < 4; i++)
+            {
+                bool afterNumberOK = false;
+                //Console.WriteLine(playerNumberSelections.ToString());
+
+                result = string.Join(",", playerNumberSelections);
+                Console.WriteLine("Current number list: " + result);
+
+                int pc = playerNumberRandom + i;
+                if (pc > 3)
+                {
+                    pc -= 4;
+                }
+                Console.WriteLine("Player " + (pc).ToString() + " select number from 7 to 13: ");
+
+                
+
+
+                //playerNumberSelected = ReturnBidCount(player);
+                playerNumberSelected = Convert.ToInt32(Console.ReadLine());
+
+                while (!afterNumberOK)
+                {
+                    if (playerNumberSelected > 6 && playerNumberSelected < 14 && playerNumberSelections.IndexOf(playerNumberSelected) == -1)
+                    {
+                        playerNumberSelections.Add(playerNumberSelected);
+                        afterNumberOK = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Number already in list or not in range.");
+                        Console.WriteLine("Player " + pc.ToString() + " select number from 7 to 13: ");
+                        playerNumberSelected = Convert.ToInt32(Console.ReadLine());
+                    }
+                }
+
+            }
+
+            result = string.Join(",", playerNumberSelections);
+            Console.WriteLine("Current number list: " + result);
+            int maxIndex = playerNumberSelections.IndexOf(playerNumberSelections.Max());
+            if (maxIndex > 3)
+            {
+                maxIndex = maxIndex - 4;
+            }
+            Console.WriteLine("The max index is: " + playerNumberSelections.Max() + " at Player " + maxIndex.ToString());
+
+            Console.WriteLine("Player " + maxIndex.ToString() + ", Select card SUIT: H = Hearts, S = Spades, D = Diamonds, C = Clubs");
+            suitSelection = Convert.ToChar(Console.ReadLine().ToUpper());
+
+            switch (suitSelection)
+            {
+                case 'H':
+                    suitSelectionToFullname = "HEART";
+                    break;
+                case 'S':
+                    suitSelectionToFullname = "SPADE";
+                    break;
+                case 'D':
+                    suitSelectionToFullname = "DIAMOND";
+                    break;
+                case 'C':
+                    suitSelectionToFullname = "CLUB";
+                    break;
+            }
+
+            int team = 1;
+            if (maxIndex == 0 || maxIndex == 1)
+            {
+                team = 1;
+            }
+            else
+            {
+                team = 2;
+            }
+
+            return new List<string> { suitSelectionToFullname, playerNumberSelections.Max().ToString(), maxIndex.ToString(), team.ToString() };
+        }
+
+
+
+
+
+        public static int ReturnBidCount (Player player)
+        {                    
+            int bidCount = 0;
+
+            foreach (Card c in player.playersCards)
+            {
+                
+                if (((int)c.CardNumber) >= 10)
+                {
+                    bidCount += 1;
+                }
+            }
+
+            if (bidCount < 7)
+            {
+                return 7;
+            }
+            else if (bidCount > 13)
+            {
+                return 13;
+            }
+
+            return bidCount;
+        }
+
+        // Round Bet (highest, suit and player)
         public static List<String> RoundBetRandom()
         {
+
+            int xcoor = 0;
+            int ycoor = 31;
+            Console.SetCursorPosition(xcoor, ycoor);
 
             var rand = new Random();
             int playerNumberRandom = rand.Next(3);
@@ -1177,7 +1380,17 @@ namespace UsingCards
                     break;
             }
 
-            return new List<string> { suitSelectionToFullname, playerNumberSelections.Max().ToString(), maxIndex.ToString() };
+            int team = 1;
+            if (maxIndex == 0 || maxIndex == 1)
+            {
+                team = 1;
+            }
+            else
+            {
+                team = 2;
+            }
+
+            return new List<string> { suitSelectionToFullname, playerNumberSelections.Max().ToString(), maxIndex.ToString() , team.ToString() };
         }
 
 
@@ -1273,6 +1486,197 @@ namespace UsingCards
             return new List<string> { suitSelectionToFullname, playerNumberSelections.Max().ToString() , maxIndex.ToString() };
         }
 
+        // Round Bet (highest, suit and player) Good one
+        public static List<String> RoundBetComputer(Player player1, Player player2, Player player3, Player player4)
+        {
+            //int numberSelected = 7;
+
+            int xcoor = 0;
+            int ycoor = 31;
+            Console.SetCursorPosition(xcoor, ycoor);
+
+            int playerNumberSelected = 0;
+            List<int> playerNumberSelections = new List<int>();
+
+            char suitSelection = 'A';
+            String suitSelectionToFullname = "";
+            bool firstNumberOK = false;
+
+
+            Console.WriteLine("Player 0 select number from 7 to 13: ");
+            playerNumberSelected = Convert.ToInt32(Console.ReadLine());
+
+
+            if (playerNumberSelected > 6 && playerNumberSelected < 14)
+            {
+                playerNumberSelections.Add(playerNumberSelected);
+            }
+            else
+            {
+                while (!firstNumberOK)
+                {
+                    Console.WriteLine("Player 0 select number from 7 to 13: ");
+                    playerNumberSelected = Convert.ToInt32(Console.ReadLine());
+                    if (playerNumberSelected > 6 && playerNumberSelected < 14)
+                    {
+                        playerNumberSelections.Add(playerNumberSelected);
+                        firstNumberOK = true;
+                    }
+                }
+            }
+
+
+            String result = string.Join(",", playerNumberSelections);
+
+            int p1 = ReturnBidCount(player2);
+
+            bool afterNumberOK = false;
+            while (!afterNumberOK)
+            {
+                if (p1 > 6 && p1 < 14 && playerNumberSelections.IndexOf(p1) == -1)
+                {
+                    playerNumberSelections.Add(p1);
+                    afterNumberOK = true;
+                }
+                else
+                {
+                    p1 += 1;
+                }
+            }
+
+            int p2 = ReturnBidCount(player3);
+            afterNumberOK = false;
+            while (!afterNumberOK)
+            {
+                if (p2 > 6 && p2 < 14 && playerNumberSelections.IndexOf(p2) == -1)
+                {
+                    playerNumberSelections.Add(p2);
+                    afterNumberOK = true;
+                }
+                else
+                {
+                    p2 += 1;
+                }
+            }
+
+            int p3 = ReturnBidCount(player4);
+            afterNumberOK = false;
+            while (!afterNumberOK)
+            {
+                if (p3 > 6 && p3 < 14 && playerNumberSelections.IndexOf(p3) == -1)
+                {
+                    playerNumberSelections.Add(p3);
+                    afterNumberOK = true;
+                }
+                else
+                {
+                    p3 += 1;
+                }
+            }
+
+            result = string.Join(",", playerNumberSelections);
+            Console.WriteLine("Current number list: " + result);
+            int maxIndex = playerNumberSelections.IndexOf(playerNumberSelections.Max());
+            Console.WriteLine("The max index is: " + playerNumberSelections.Max() + " at Player " + maxIndex.ToString());
+
+            if (maxIndex == 0)
+            {
+
+                Console.WriteLine("Player " + maxIndex.ToString() + ", Select card SUIT: H = Hearts, S = Spades, D = Diamonds, C = Clubs");
+                suitSelection = Convert.ToChar(Console.ReadLine().ToUpper());
+
+                switch (suitSelection)
+                {
+                    case 'H':
+                        suitSelectionToFullname = "HEART";
+                        break;
+                    case 'S':
+                        suitSelectionToFullname = "SPADE";
+                        break;
+                    case 'D':
+                        suitSelectionToFullname = "DIAMOND";
+                        break;
+                    case 'C':
+                        suitSelectionToFullname = "CLUB";
+                        break;
+                }
+            }
+            else
+            {
+                if (maxIndex == 1)
+                {
+                    suitSelectionToFullname = ReturnTarneeb(player2);
+                }
+                if (maxIndex == 2)
+                {
+                    suitSelectionToFullname = ReturnTarneeb(player3);
+                }
+                if (maxIndex == 3)
+                {
+                    suitSelectionToFullname = ReturnTarneeb(player4);
+                }
+            }
+
+            int team = 1;
+            if (maxIndex == 0 || maxIndex == 1)
+            {
+                team = 1;
+            }
+            else
+            {
+                team = 2;
+            }
+
+            return new List<string> { suitSelectionToFullname, playerNumberSelections.Max().ToString(), maxIndex.ToString(), team.ToString() };
+        }
+
+        public static string ReturnTarneeb(Player player)
+        {
+            int cCount = 0;
+            int dCount = 0;
+            int hCount = 0;
+            int sCount = 0;
+            
+            foreach (Card c in player.playersCards)
+            {
+                if (c.Suit.ToString() == "CLUB")
+                {
+                    cCount += 1;
+                }
+                if (c.Suit.ToString() == "DIAMOND")
+                {
+                    dCount += 1;
+                }
+                if (c.Suit.ToString() == "HEART")
+                {
+                    hCount += 1;
+                }
+                if (c.Suit.ToString() == "SPADE")
+                {
+                    sCount += 1;
+                }
+            }
+
+            if (cCount > dCount && cCount > hCount && cCount > sCount )
+            {
+                return "CLUB";
+            }
+            else if (dCount > cCount && dCount > hCount && dCount > sCount)
+            {
+                return "DIAMOND";
+            }
+            else if (hCount > cCount && hCount > dCount && hCount > sCount)
+            {
+                return "HEART";
+            }
+            else 
+            {
+                return "SPADE";
+            }
+        }
+
+
+
         // Display Cards of players
         public static void displayCards(Player player1, Player player2, Player player3, Player player4)
         {
@@ -1289,13 +1693,13 @@ namespace UsingCards
                 DrawCards.DrawCardSuitValue(player1.playersCards[i], x, y);
                 x++; // move to the right
             }
-            y = 9; // move the row of computer cards below the player's cards
+            y = 8; // move the row of computer cards below the player's cards
             x = 0; // reset x position
 
             Console.SetCursorPosition(x, y);
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine(player2.name + " hand:");
-            y = 10; // move the row of computer cards below the player's cards
+            y = 9; // move the row of computer cards below the player's cards
             x = 0; // reset x position
 
             for (int i = 0; i < player2.playersCards.Count; i++)
@@ -1306,13 +1710,13 @@ namespace UsingCards
             }
 
 
-            y = 18; // move the row of computer cards below the player's cards
+            y = 16; // move the row of computer cards below the player's cards
             x = 0; // reset x position
 
             Console.SetCursorPosition(x, y);
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine(player3.name + " hand:");
-            y = 19; // move the row of computer cards below the player's cards
+            y = 17; // move the row of computer cards below the player's cards
             x = 0; // reset x position
 
             for (int i = 0; i < player3.playersCards.Count; i++)
@@ -1322,13 +1726,13 @@ namespace UsingCards
                 x++; // move to the right
             }
 
-            y = 27; // move the row of computer cards below the player's cards
+            y = 24; // move the row of computer cards below the player's cards
             x = 0; // reset x position
 
             Console.SetCursorPosition(x, y);
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine(player4.name + " hand:");
-            y = 28; // move the row of computer cards below the player's cards
+            y = 25; // move the row of computer cards below the player's cards
             x = 0; // reset x position
 
 
