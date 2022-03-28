@@ -96,36 +96,36 @@ namespace UsingCards
             int roundWinner = Convert.ToInt32(tarneebSuit[2]);
 
             // Which team bid highest reaches end game
-            //bool endgame = false;
-            //int team = 0;
-            //if (tarneebSuit[3] == "1")
-            //{
-            //    team = 1;
-            //}
-            //else
-            //{
-            //    team = 2;
-            //}
+            bool endgame = false;
+            int team = 0;
+            if (tarneebSuit[3] == "1")
+            {
+                team = 1;
+            }
+            else
+            {
+                team = 2;
+            }
 
             // Stop game when no cards left (might have to change to when quit bool variable instead of all cards gone)
-            while (FirstTeam.score != 41 || SecondTeam.score != 41 || player4.playersCards.Count == 0)// || endgame == false )
+            while (FirstTeam.score != 41 || SecondTeam.score != 41 || player4.playersCards.Count == 0 || endgame == false )
             {
-                //if (team == 1)
-                //{
-                //    if (FirstTeam.score == Int32.Parse(tarneebSuit[1]))
-                //    {
-                //        endgame = true;
-                //    }
-                //}
-                //else if (team == 2)
-                //{
-                //    if (SecondTeam.score != Int32.Parse(tarneebSuit[1]))
-                //    {
-                //        endgame = true;
-                //    }
-                //}
+                if (team == 1)
+                {
+                    if (FirstTeam.score == Int32.Parse(tarneebSuit[1]))
+                    {
+                        endgame = true;
+                    }
+                }
+                else if (team == 2)
+                {
+                    if (SecondTeam.score != Int32.Parse(tarneebSuit[1]))
+                    {
+                        endgame = true;
+                    }
+                }
 
-                
+
                 // The drawn cards are emptied before each round
                 drawnCardList = new List<Card>() { };
                 
