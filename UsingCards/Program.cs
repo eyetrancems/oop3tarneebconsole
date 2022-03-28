@@ -523,7 +523,7 @@ namespace UsingCards
             return CardChoose;
         }
 
-        // Choose Card method
+        // Choose AI (EASY and HARD) Computer Card method 
         public static Card ChooseCardComputer(Player playerSelection, Player player1, Player player2, Player player3, Player player4, List<Card> listOfCards)
         {
             List<Card> selectedPlayersCards = new List<Card>();
@@ -597,7 +597,7 @@ namespace UsingCards
             // Display tarneeb selection
             Console.WriteLine("The Tarneeb is: " + tarneebSuit[0] + ". Bet is: " + tarneebSuit[1] + " at Player " + tarneebSuit[2]);
 
-
+            // Easy AI Artificial Intelligence
             if (difficulty == "easy")
             {
                 // Select Trump card anywhere
@@ -645,6 +645,7 @@ namespace UsingCards
                 return selectedPlayersCards[weakCardOfTarneebSuit];
             }
 
+            // HARD AI Artifical Intelligence
             else if (difficulty == "hard")
             {
                 // Select Trump card anywhere
